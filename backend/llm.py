@@ -1,12 +1,17 @@
 from groq import Groq
 import os
 import json
+import re
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = Groq(api_key="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")
+api_key = os.getenv("GROQ_API_KEY")
 
+if not api_key:
+    raise ValueError("GROQ_API_KEY not found in .env")
+
+client = Groq(api_key=api_key)
 
 def call_llm_json(prompt: str):
     response = client.chat.completions.create(
